@@ -7,6 +7,8 @@
 		<script src="simpleTimeline.js"></script>
 		
 		<style>
+			body{background:url('img/bg.png');}
+			#wrapper{width:95%;margin:0px auto;}
 			.timeline {
 				position: relative;
 				margin-top: 0px;
@@ -15,6 +17,7 @@
 				overflow-y: hidden;
 				border: 1px solid dimgray;
 				box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+				background:#fff;
 			}
 			
 			.timeline .selected	{
@@ -25,15 +28,15 @@
 			.timeline-collapse {
 				top: 355px
 			}
-			.style_font{line-height: 30px !important;font-weight:800;color: #fff;}
-			.style_Rice1{background:url('img/rice_1.jpg') 50% 50%;}
-			.style_Rice2{background:url('img/rice_2.jpg') 50% 50%;}
-			.style_Rice3{background:url('img/rice_3.jpg') 50% 50%;}
-			.style_carrot1{background:url('img/carrot_1.jpg') 50% 50%;}
+			.style_font{line-height: 30px !important;font-weight:800;color: #fff;text-shadow: 0.2em 0.2em 0.2em #000;font-size:15px !important;}
+			.style_rice1{background:url('img/rice_1.jpg') 50% 50%;}
+			.style_rice2{background:url('img/rice_2.jpg') 50% 50%;}
+			.style_rice3{background:url('img/rice_3.jpg') 50% 50%;}
 			
+			.style_carrot1{background:url('img/carrot_1.jpg') 50% 50%;}
 			.style_cabbage1{background:url('img/cabbage_1.jpg') 50% 50%;}
 			.style_caltrops1{background:url('img/caltrops_1.jpg') 50% 50%;}
-			.style_tomato_1{background:url('img/carrot_1.jpg') 50% 50%;}
+			.style_tomato_1{background:url('img/tomato_1.jpg') 50% 50%;}
 			
 			.style_mango1{background:url('img/mango_1.jpg') 50% 50%;}
 			.style_pineapple1{background:url('img/pineapple_1.jpg') 50% 50%;}
@@ -59,22 +62,16 @@
 
 		</style>
 	</head>
-	<body>		
-		<h2>水稻</h2>
-		<div id="timeline1" class="timeline"></div>
-		<h2>蔬菜</h2>
-		<div id="timeline2" class="timeline"></div>
-		<h2>果樹</h2>
-		<div id="timeline3" class="timeline"></div>
-		<!--
-		<p>Play with the timeline:</p>
-		<ul>
-			<li>Click the items in the timeline. <span id='clicked-item'></span></li>
-			<li><a href="#" onclick="bind_popup()">Attach popup text to selected item</a></li>
-			<li><a href="#" onclick="add_item()">Add an item</a></li>
-			<li><a href="#" onclick="remove_selected_item()">Remove selected item</a></li>
-		</ul>
-		-->
+	<body>
+		<h1><center>台南市農情儀表板</center></h1>
+		<div id=wrapper>
+			<h2>水稻</h2>
+			<div id="timeline1" class="timeline"></div>
+			<h2>蔬菜</h2>
+			<div id="timeline2" class="timeline"></div>
+			<h2>果樹</h2>
+			<div id="timeline3" class="timeline"></div>
+		</div>
 		<script>
 			var timeline;
 			$(document).ready(timeline_init);
@@ -87,7 +84,7 @@
 						{ start: -30000, end: -5000, indicatorsEvery: 25000, share: .07, className: 'timeline-unused-phase' },
 						{ start: -5000, end: 2000, indicatorsEvery: 1000, share: .73 }
 						*/
-						{ start: 0, end: 120, indicatorsEvery: 10, share: 1 },
+						{ start: 0, end: 130, indicatorsEvery: 10, share: 1 },
 					],
 					formatHeader: function (v) {
 						//if(v < 0) return -v + ' BC';
@@ -143,12 +140,12 @@
 				
 				// note: item 'Lonely' has a popup text attached
 				var data1 = [
-					[{ id: '一期水稻<br>栽種期', start: 15, end: 25, className: 'style_Rice1 style_font' },
-					 { id: '一期水稻<br>開花抽穗期', start: 45, end: 55, className: 'style_Rice2 style_font' },
-					 { id: '一期水稻<br>採收期', start: 55, end: 65, className: 'style_Rice3 style_font' },],
-					[{ id: '二期水稻<br>栽種期', start: 75, end: 85, className: 'style_Rice1 style_font' },
-					 { id: '二期水稻<br>開花抽穗期', start: 105, end: 115, className: 'style_Rice2 style_font' },
-					 { id: '二期水稻<br>採收期', start: 115, end: 125, className: 'style_Rice3 style_font' },],
+					[{ id: '一期水稻<br>栽種期', start: 15, end: 25, className: 'style_rice1 style_font', popup_html: 'I am <b>really, really</b> lonely!' },
+					 { id: '一期水稻<br>開花抽穗期', start: 45, end: 55, className: 'style_rice2 style_font' },
+					 { id: '一期水稻<br>採收期', start: 55, end: 65, className: 'style_rice3 style_font' },],
+					[{ id: '二期水稻<br>栽種期', start: 75, end: 85, className: 'style_rice1 style_font' },
+					 { id: '二期水稻<br>開花抽穗期', start: 105, end: 115, className: 'style_rice2 style_font' },
+					 { id: '二期水稻<br>採收期', start: 115, end: 125, className: 'style_rice3 style_font' },],
 					
 					/* 
 					[{ id: 'Looong', start: -42000, end: -1492, className: 'styleB' },
@@ -163,34 +160,35 @@
 				];
 				
 				var data2 = [
-					[{ id: '胡蘿蔔<br>栽種期', start: 90, end: 120, className: 'style_cacot1 style_font' },
-					 { id: '胡蘿蔔<br>採收期', start: 145, end: 155, className: 'style_cacot1 style_font' },],
+					[{ id: '胡蘿蔔<br>栽種期', start: 90, end: 120, className: 'style_carrot1 style_font' },
+					 { id: '胡蘿蔔<br>採收期', start: 145, end: 155, className: 'style_carrot1 style_font' },],
 					[{ id: '甘藍<br>栽種期', start: 90, end: 110, className: 'style_cabbage1 style_font' },
 					 { id: '甘藍<br>採收期', start: 120, end:140, className: 'style_cabbage1 style_font' },],
 					[{ id: '菱角<br>栽種期', start: 60, end: 70, className: 'style_caltrops1 style_font' },
 					 { id: '菱角<br>開花期', start: 80, end: 100, className: 'style_caltrops1 style_font' },
-					 { id: '菱角<br>結果期', start: 80, end: 100, className: 'style_caltrops1 style_font' },
-					 { id: '菱角<br>採收期', start: 90, end: 110, className: 'style_caltrops1 style_font' },],
-					[{ id: '番茄<br>栽種期', start: 90, end: 105, className: 'style_tomato_1 style_font' },
-					 { id: '番茄<br>開花期', start: 100, end: 130, className: 'style_tomato_1 style_font' },
-					 { id: '番茄<br>結果期', start: 110, end: 140, className: 'style_tomato_1 style_font' },
-					 { id: '番茄<br>採收期', start: 120, end: 150, className: 'style_tomato_1 style_font' },],
+					 ],
+					[{ id: '菱角<br>結果期', start: 80, end: 100, className: 'style_caltrops1 style_font' },],
+					[{ id: '菱角<br>採收期', start: 90, end: 110, className: 'style_caltrops1 style_font' },], 
+					[{ id: '番茄<br>栽種期', start: 90, end: 105, className: 'style_tomato_1 style_font' },],
+					[{ id: '番茄<br>開花期', start: 100, end: 130, className: 'style_tomato_1 style_font' },], 
+					[{ id: '番茄<br>結果期', start: 110, end: 140, className: 'style_tomato_1 style_font' },],
+					[{ id: '番茄<br>採收期', start: 120, end: 150, className: 'style_tomato_1 style_font' },],
 	
 				];
 				
 				var data3 = [
-					[{ id: '芒果,鳳梨,文旦,香蕉,荔枝,龍眼,木瓜,番石榴,火龍果<br>全年皆生長期', start: 0, end: 120, className: 'style_Rice1 style_font' }],
+					[{ id: '芒果,鳳梨,文旦,香蕉,荔枝,龍眼,木瓜,番石榴,火龍果<br>全年皆生長期', start: -30, end: 140, className: 'style_rice1 style_font' }],
 					[{ id: '芒果<br>開花期', start: 20, end: 30, className: 'style_mango1 style_font' },
 					 { id: '芒果<br>結果期', start: 40, end: 50, className: 'style_mango1 style_font' },
 					 { id: '芒果<br>採收期', start: 60, end: 70, className: 'style_mango1 style_font' },],
 					[{ id: '鳳梨<br>開花期', start: -10, end: 10, className: 'style_pineapple1 style_font' },
-					 { id: '鳳梨<br>結果期', start: 30, end: 60, className: 'style_pineapple1 style_font' },
-					 { id: '鳳梨<br>採收期', start: 40, end: 70, className: 'style_pineapple1 style_font' },],
+					 { id: '鳳梨<br>結果期', start: 30, end: 60, className: 'style_pineapple1 style_font' },],
+					[{ id: '鳳梨<br>採收期', start: 40, end: 70, className: 'style_pineapple1 style_font' },], 
 					[{ id: '文旦<br>開花期', start: 30, end: 40, className: 'style_pomelo1 style_font' },
 					 { id: '文旦<br>結果期', start: 40, end: 50, className: 'style_pomelo1 style_font' },
 					 { id: '文旦<br>採收期', start: 87, end: 99, className: 'style_pomelo1 style_font' },],
-					[{ id: '香蕉<br>開花期', start: -30, end: 50, className: 'style_banana1 style_font' },
-					 { id: '香蕉<br>結果期', start: -30, end: 50, className: 'style_banana1 style_font' },
+					[{ id: '香蕉<br>開花期', start: -30, end: 50, className: 'style_banana1 style_font' },],
+					[{ id: '香蕉<br>結果期', start: -30, end: 50, className: 'style_banana1 style_font' },
 					 { id: '香蕉<br>採收期', start: 20, end: 70, className: 'style_banana1 style_font' },],
 					[{ id: '荔枝<br>開花期', start: 20, end: 30, className: 'style_lychee1 style_font' },
 					 { id: '荔枝<br>結果期', start: 40, end: 60, className: 'style_lychee1 style_font' },
@@ -198,15 +196,15 @@
 					[{ id: '龍眼<br>開花期', start: 20, end: 30, className: 'style_longan1 style_font' },
 					 { id: '龍眼<br>結果期', start: 40, end: 70, className: 'style_longan1 style_font' },
 					 { id: '龍眼<br>採收期', start: 70, end: 80, className: 'style_longan1 style_font' },],
-					[{ id: '木瓜<br>開花期', start: 0, end: 120, className: 'style_papaya1 style_font' },
-					 { id: '木瓜<br>結果期', start: 50, end: 70, className: 'style_papaya2 style_font' },
-					 { id: '木瓜<br>採收期', start: 60, end: 90, className: 'style_papaya3 style_font' },],
-					[{ id: '番石榴<br>開花期', start: 40, end: 110, className: 'style_guava1 style_font' },
-					 { id: '番石榴<br>結果期', start: 40, end: 140, className: 'style_guava1 style_font' },
-					 { id: '番石榴<br>採收期', start: 70, end: 140, className: 'style_guava1 style_font' },],
-					[{ id: '火龍果<br>開花期', start: 40, end: 100, className: 'style_pitaya1 style_font' },
-					 { id: '火龍果<br>結果期', start: 50, end: 120, className: 'style_pitaya1 style_font' },
-					 { id: '火龍果<br>採收期', start: 50, end: 120, className: 'style_pitaya1 style_font' },],
+					[{ id: '木瓜<br>全年皆開花期', start: -30, end: 140, className: 'style_papaya1 style_font' },],
+					[{ id: '木瓜<br>結果期', start: 50, end: 70, className: 'style_papaya1 style_font' },], 
+					[{ id: '木瓜<br>採收期', start: 60, end: 90, className: 'style_papaya1 style_font' },], 
+					[{ id: '番石榴<br>開花期', start: 40, end: 110, className: 'style_guava1 style_font' },],
+					[{ id: '番石榴<br>結果期', start: 40, end: 140, className: 'style_guava1 style_font' },],
+					[{ id: '番石榴<br>採收期', start: 70, end: 140, className: 'style_guava1 style_font' },],
+					[{ id: '火龍果<br>開花期', start: 40, end: 100, className: 'style_pitaya1 style_font' },],
+					[{ id: '火龍果<br>結果期', start: 50, end: 120, className: 'style_pitaya1 style_font' },],
+					[{ id: '火龍果<br>採收期', start: 50, end: 120, className: 'style_pitaya1 style_font' },], 
 				
 				];
 				
