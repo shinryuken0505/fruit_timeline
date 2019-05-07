@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="simpleTimeline.css" />
+		<script src="jquery-1.12.4.min.js"></script>
+		<script src="resize.js"></script>
+		<script src="simpleTimeline.js"></script>
+		
+		<style>
+			.timeline {
+				position: relative;
+				margin-top: 0px;
+				max-width: 100%;
+				overflow-x: auto;
+				overflow-y: hidden;
+				border: 1px solid dimgray;
+				box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.75);
+			}
+			
+			.timeline .selected	{
+				font-weight: bold;
+				box-shadow: 0px 0px 3px 1px gray;
+			}
+			
+			.timeline-collapse {
+				top: 355px
+			}
+			.style_font{line-height: 30px !important;font-weight:800;color: #fff;}
+			.style_Rice1{background:url('img/rice_1.jpg') 50% 50%;}
+			.style_Rice2{background:url('img/rice_2.jpg') 50% 50%;}
+			.style_Rice3{background:url('img/rice_3.jpg') 50% 50%;}
+			.style_carrot1{background:url('img/carrot_1.jpg') 50% 50%;}
+			
+			.style_cabbage1{background:url('img/cabbage_1.jpg') 50% 50%;}
+			.style_caltrops1{background:url('img/caltrops_1.jpg') 50% 50%;}
+			.style_tomato_1{background:url('img/carrot_1.jpg') 50% 50%;}
+			
+			.style_mango1{background:url('img/mango_1.jpg') 50% 50%;}
+			.style_pineapple1{background:url('img/pineapple_1.jpg') 50% 50%;}
+			.style_pomelo1{background:url('img/pomelo_1.jpg') 50% 50%;}
+			.style_banana1{background:url('img/banana_1.jpg') 50% 50%;}
+			.style_lychee1{background:url('img/lychee_1.jpg') 50% 50%;}
+			.style_longan1{background:url('img/longan_1.jpg') 50% 50%;}
+			.style_papaya1{background:url('img/papaya_1.jpg') 50% 50%;}
+			.style_guava1{background:url('img/guava_1.jpg') 50% 50%;}
+			.style_pitaya1{background:url('img/pitaya_1.jpg') 50% 50%;}
+			
+
+			.timeline-unused-phase {
+				background: repeating-linear-gradient(
+					-45deg,
+					rgba(255,255,255,0.85),
+					rgba(255,255,255,0.85) 10px,
+					rgba(235,235,235,0.85) 10px,
+					rgba(235,235,235,0.85) 20px
+				);
+			}
+			
+
+		</style>
+	</head>
+	<body>		
+		<h2>水稻</h2>
+		<div id="timeline1" class="timeline"></div>
+		<h2>蔬菜</h2>
+		<div id="timeline2" class="timeline"></div>
+		<h2>果樹</h2>
+		<div id="timeline3" class="timeline"></div>
+		<!--
+		<p>Play with the timeline:</p>
+		<ul>
+			<li>Click the items in the timeline. <span id='clicked-item'></span></li>
+			<li><a href="#" onclick="bind_popup()">Attach popup text to selected item</a></li>
+			<li><a href="#" onclick="add_item()">Add an item</a></li>
+			<li><a href="#" onclick="remove_selected_item()">Remove selected item</a></li>
+		</ul>
+		-->
+		<script>
+			var timeline;
+			$(document).ready(timeline_init);
+			
+			function timeline_init() {
+				var options1 = {
+					phases: [
+						/*
+						{ start: -50000, end: -30000, indicatorsEvery: 20000, share: .2 },
+						{ start: -30000, end: -5000, indicatorsEvery: 25000, share: .07, className: 'timeline-unused-phase' },
+						{ start: -5000, end: 2000, indicatorsEvery: 1000, share: .73 }
+						*/
+						{ start: 0, end: 120, indicatorsEvery: 10, share: 1 },
+					],
+					formatHeader: function (v) {
+						//if(v < 0) return -v + ' BC';
+						if(v > 0) {
+							t=v/10; 
+							if(t>=13){t=t-12;t="隔年"+t;} 
+							return t + ' 月';
+						}
+						return '今年';
+					},					
+					barHeight: 100,
+					fontSize: 16
+				};
+				
+				var options2 = {
+					phases: [
+						{ start: 0, end: 160, indicatorsEvery: 10, share: 1 },
+					],
+					formatHeader: function (v) {
+						//if(v < 0) return -v + ' BC';
+						if(v > 0) {
+							t=v/10; 
+							if(t>=13){t=t-12;t="隔年"+t;} 
+							return t + ' 月';
+						}
+						return '今年';
+					},					
+					barHeight: 100,
+					fontSize: 16
+				};
+				
+				var options3 = {
+					phases: [
+						{ start: -30, end: 140, indicatorsEvery: 10, share: 1 },
+					],
+					formatHeader: function (v) {
+						//if(v < 0) return -v + ' BC';
+						if(v < 0) {
+							t=(v+130)/10; 
+							t="去年"+t;
+							return t + ' 月';
+						}
+						if(v > 0) {
+							t=v/10; 
+							if(t>=13){t=t-12;t="隔年"+t;} 
+							return t + ' 月';
+						}
+						return '今年';
+					},					
+					barHeight: 100,
+					fontSize: 16
+				};
+				
+				// note: item 'Lonely' has a popup text attached
+				var data1 = [
+					[{ id: '一期水稻<br>栽種期', start: 15, end: 25, className: 'style_Rice1 style_font' },
+					 { id: '一期水稻<br>開花抽穗期', start: 45, end: 55, className: 'style_Rice2 style_font' },
+					 { id: '一期水稻<br>採收期', start: 55, end: 65, className: 'style_Rice3 style_font' },],
+					[{ id: '二期水稻<br>栽種期', start: 75, end: 85, className: 'style_Rice1 style_font' },
+					 { id: '二期水稻<br>開花抽穗期', start: 105, end: 115, className: 'style_Rice2 style_font' },
+					 { id: '二期水稻<br>採收期', start: 115, end: 125, className: 'style_Rice3 style_font' },],
+					
+					/* 
+					[{ id: 'Looong', start: -42000, end: -1492, className: 'styleB' },
+					 { id: 'Hoko', start: -980, end: -332, className: 'styleB' }],
+					
+					[{ id: 'Lonely', start: -3500, end: 733, className: 'styleB', popup_html: 'I am <b>really, really</b> lonely!' }],
+					
+					[{ id: 'Wunz', start: -4700, end: -2000, className: 'styleC' },
+					 { id: 'Inzi', start: -2000, end: -1000, className: 'styleC' },
+					 { id: 'Misi', start: -2000, end: 1500, className: 'styleC' }]
+					 */
+				];
+				
+				var data2 = [
+					[{ id: '胡蘿蔔<br>栽種期', start: 90, end: 120, className: 'style_cacot1 style_font' },
+					 { id: '胡蘿蔔<br>採收期', start: 145, end: 155, className: 'style_cacot1 style_font' },],
+					[{ id: '甘藍<br>栽種期', start: 90, end: 110, className: 'style_cabbage1 style_font' },
+					 { id: '甘藍<br>採收期', start: 120, end:140, className: 'style_cabbage1 style_font' },],
+					[{ id: '菱角<br>栽種期', start: 60, end: 70, className: 'style_caltrops1 style_font' },
+					 { id: '菱角<br>開花期', start: 80, end: 100, className: 'style_caltrops1 style_font' },
+					 { id: '菱角<br>結果期', start: 80, end: 100, className: 'style_caltrops1 style_font' },
+					 { id: '菱角<br>採收期', start: 90, end: 110, className: 'style_caltrops1 style_font' },],
+					[{ id: '番茄<br>栽種期', start: 90, end: 105, className: 'style_tomato_1 style_font' },
+					 { id: '番茄<br>開花期', start: 100, end: 130, className: 'style_tomato_1 style_font' },
+					 { id: '番茄<br>結果期', start: 110, end: 140, className: 'style_tomato_1 style_font' },
+					 { id: '番茄<br>採收期', start: 120, end: 150, className: 'style_tomato_1 style_font' },],
+	
+				];
+				
+				var data3 = [
+					[{ id: '芒果,鳳梨,文旦,香蕉,荔枝,龍眼,木瓜,番石榴,火龍果<br>全年皆生長期', start: 0, end: 120, className: 'style_Rice1 style_font' }],
+					[{ id: '芒果<br>開花期', start: 20, end: 30, className: 'style_mango1 style_font' },
+					 { id: '芒果<br>結果期', start: 40, end: 50, className: 'style_mango1 style_font' },
+					 { id: '芒果<br>採收期', start: 60, end: 70, className: 'style_mango1 style_font' },],
+					[{ id: '鳳梨<br>開花期', start: -10, end: 10, className: 'style_pineapple1 style_font' },
+					 { id: '鳳梨<br>結果期', start: 30, end: 60, className: 'style_pineapple1 style_font' },
+					 { id: '鳳梨<br>採收期', start: 40, end: 70, className: 'style_pineapple1 style_font' },],
+					[{ id: '文旦<br>開花期', start: 30, end: 40, className: 'style_pomelo1 style_font' },
+					 { id: '文旦<br>結果期', start: 40, end: 50, className: 'style_pomelo1 style_font' },
+					 { id: '文旦<br>採收期', start: 87, end: 99, className: 'style_pomelo1 style_font' },],
+					[{ id: '香蕉<br>開花期', start: -30, end: 50, className: 'style_banana1 style_font' },
+					 { id: '香蕉<br>結果期', start: -30, end: 50, className: 'style_banana1 style_font' },
+					 { id: '香蕉<br>採收期', start: 20, end: 70, className: 'style_banana1 style_font' },],
+					[{ id: '荔枝<br>開花期', start: 20, end: 30, className: 'style_lychee1 style_font' },
+					 { id: '荔枝<br>結果期', start: 40, end: 60, className: 'style_lychee1 style_font' },
+					 { id: '荔枝<br>採收期', start: 60, end: 70, className: 'style_lychee1 style_font' },],
+					[{ id: '龍眼<br>開花期', start: 20, end: 30, className: 'style_longan1 style_font' },
+					 { id: '龍眼<br>結果期', start: 40, end: 70, className: 'style_longan1 style_font' },
+					 { id: '龍眼<br>採收期', start: 70, end: 80, className: 'style_longan1 style_font' },],
+					[{ id: '木瓜<br>開花期', start: 0, end: 120, className: 'style_papaya1 style_font' },
+					 { id: '木瓜<br>結果期', start: 50, end: 70, className: 'style_papaya2 style_font' },
+					 { id: '木瓜<br>採收期', start: 60, end: 90, className: 'style_papaya3 style_font' },],
+					[{ id: '番石榴<br>開花期', start: 40, end: 110, className: 'style_guava1 style_font' },
+					 { id: '番石榴<br>結果期', start: 40, end: 140, className: 'style_guava1 style_font' },
+					 { id: '番石榴<br>採收期', start: 70, end: 140, className: 'style_guava1 style_font' },],
+					[{ id: '火龍果<br>開花期', start: 40, end: 100, className: 'style_pitaya1 style_font' },
+					 { id: '火龍果<br>結果期', start: 50, end: 120, className: 'style_pitaya1 style_font' },
+					 { id: '火龍果<br>採收期', start: 50, end: 120, className: 'style_pitaya1 style_font' },],
+				
+				];
+				
+				timeline1 = $('#timeline1');
+				timeline1.simpleTimeline(options1, data1);				
+				timeline1.on('timeline:barclick', timeline_clicked);
+				
+				timeline2 = $('#timeline2');
+				timeline2.simpleTimeline(options2, data2);				
+				timeline2.on('timeline:barclick', timeline_clicked);
+				
+				timeline3 = $('#timeline3');
+				timeline3.simpleTimeline(options3, data3);				
+				timeline3.on('timeline:barclick', timeline_clicked);
+			}
+				
+			function timeline_clicked(e) {
+				var clicked_item = $(e.target);
+				
+				var sel = $('.selected');
+				sel.removeClass('selected');
+				$('#clicked-item').empty();
+				
+				if(sel.length == 0 || sel.data('id') != clicked_item.data('id')) {
+					clicked_item.addClass('selected');
+					$('#clicked-item').text("You clicked " + clicked_item.data('id'));
+				}					
+			}
+			
+			function add_item() {
+				var data = timeline.getTimelineData();
+				data.push([
+					{
+						id: 'New One', 
+						start: -1978, 
+						end: 1978, 
+						className: 'styleA' 
+					}
+				]);
+				timeline.setTimelineData(data).refreshTimeline();
+			}
+			
+			function remove_selected_item() {
+				var sel_item_id = $('.selected').data('id');
+				var data = timeline.getTimelineData();
+				for(var l = 0; l < data.length; l++) {
+					for(var i = 0; i < data[l].length; i++) {
+						if(data[l][i].id == sel_item_id) {
+							data[l].splice(i,1);
+							if(data[l].length == 0)
+								data.splice(l,1);
+							timeline.setTimelineData(data).refreshTimeline();
+							return;
+						}
+					}
+				}					
+			}
+			
+			function bind_popup() {
+				var sel_item_id = $('.selected').data('id');
+				if(typeof sel_item_id == 'undefined') {
+					alert('Ain\'t nothin\' selected, yo!');
+					return;
+				}
+				
+				timeline.bindPopup(sel_item_id, '<p><b>Yo it\'s great</b></p><p>Lorem ipsum dolizzle da bomb da bomb, consectetuer adipiscing elit. Nullam sapien velit, boom shackalack volutpizzle, suscipizzle daahng dawg, gravida vel, hizzle. Pellentesque go to hizzle tortor. Sed eros. Izzle at dolizzle dapibus turpis tempizzle gangster. Maurizzle fo shizzle my nizzle nibh et turpizzle. Owned in tortizzle. Pellentesque away rhoncizzle nizzle.</p><p>For sure bizzle massa go to hizzle shizzlin dizzle. Boom shackalack tellivizzle ipsum primis in crunk gangster luctizzle et stuff yo mamma izzle Break yo neck, yall; Nizzle sure. Pellentesque stuff check out this get down get down senectizzle et netizzle bow wow wow malesuada fizzle ac gangster egestas. Funky fresh tempor cool crackalackin. Fizzle erizzle mah nizzle.</p>');
+			}
+		</script>
+	</body>
+</html>
